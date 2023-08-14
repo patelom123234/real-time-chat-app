@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .hero {
+        background-color: #f2f2f2;
+        color: #333333;
+        padding: 100px 0;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        background-color: #3498db;
+        color: #ffffff;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+    }
+
+    .feature {
+        text-align: center;
+        margin: 30px;
+    }
+
+    .feature img {
+        max-width: 100px;
+        margin-bottom: 20px;
+    }
+
+    .feature h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333333;
+    }
+
+    .feature p {
+        font-size: 16px;
+        color: #666666;
+    }
+
+    .features-section {
+        display: flex;
+        justify-content: center;
+        padding: 50px 0;
+        background-color: #ffffff;
+    }
+
+    .hero-image {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Chatster</h1>
+        <p>Connect and chat with friends in real time.</p>
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('chat') }}" class="btn-primary">Start Chatting</a>
+        {% else %}
+        <a href="{{ url_for('login') }}" class="btn-primary">Log In to Chat</a>
+        {% endif %}
+    </div>
+    <div class="hero-image">
+        <img src="https://th.bing.com/th/id/OIP.-6zaaEv-KomiklkNMOxjOAHaE8?pid=ImgDet&rs=1" alt="Chatster Hero Image" style="width: 100%;">
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="feature">
+        <img src="https://www.bing.com/th?id=OIP.keIG-gLYH4XdTkLvAFqI2QHaEo&w=146&h=100&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="Feature 1 Icon" width="100px" height="100px">
+        <h2>Real Time Messaging</h2>
+        <p>Chat with friends in real time and stay connected.</p>
+    </div>
+    <div class="feature">
+        <img src="https://www.bing.com/th?id=OIP.NbfPECA64xbFnmW58MbWDQHaEo&w=146&h=100&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="Feature 2 Icon" width="100px" height="100px">
+        <h2>Secure and Private</h2>
+        <p>Your conversations are encrypted and private.</p>
+    </div>
+    <div class="feature">
+        <img src="https://www.bing.com/th?id=OIP.avb9nDfw3kq7NOoP0grM4wHaEK&w=163&h=100&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="Feature 3 Icon" width="100px" height="100px">
+        <h2>Easy to Use</h2>
+        <p>Simple and intuitive interface for seamless communication.</p>
+    </div>
+</div>
+{% endblock %}

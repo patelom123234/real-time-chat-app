@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+    <h2>Log In</h2>
+    {% with messages = get_flashed_messages() %}
+    <p style="color: red;"> {{ messages[0] }} </p>  <!-- Display the first flashed message -->
+{% endwith %}
+    <form method="POST" action="{{ url_for('login') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+{% endblock %}

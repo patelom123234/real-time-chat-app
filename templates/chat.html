@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<style>
+    /* Custom styles for this page */
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 80vh;
+    }
+
+    .chat {
+        flex: 1;
+        overflow-y: scroll;
+        padding: 20px;
+        background-color: #f4f4f4;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .chat p {
+        margin: 10px 0;
+    }
+
+    .message-input {
+        display: flex;
+        padding: 20px;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    #messageInput {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    #sendButton {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #sendButton:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+<div class="chat-container">
+    <div id="chat" class="chat">
+        {% for message in messages %}
+            <p><strong>{{ message.sender }}:</strong> {{ message.content }}</p>
+        {% endfor %}
+    </div>
+    <div class="message-input" style="margin: 30px;">
+        <input id="messageInput" type="text" placeholder="Type your message...">
+        <button id="sendButton">Send</button>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const chatDiv = document.getElementById('chat');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Emit message when send button is clicked
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value;
+            if (message.trim() !== '') {
+                socket.emit('message', { message: message });
+                messageInput.value = '';
+            }
+        });
+
+        // Append received message to the chat
+        socket.on('message', (data) => {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<p><strong>${data.username}:</strong> ${data.message}</p>`;
+            chatDiv.appendChild(messageElement);
+            chatDiv.scrollTop = chatDiv.scrollHeight; // Scroll to bottom
+        });
+
+            // ... (Your existing code)
+
+    // Function to display a browser notification
+    function showNotification(sender, content) {
+        if (Notification.permission === 'granted') {
+            const options = {
+                body: content,
+            };
+            const notification = new Notification(sender, options);
+        }
+    }
+
+    // WebSocket code for receiving and displaying new messages
+    socket.on('message', (data) => {
+        const { username, message } = data;
+
+        // Display the message in the chat interface
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = `<p><strong>${username}:</strong> ${message}</p>`;
+        chatDiv.appendChild(messageElement);
+        chatDiv.scrollTop = chatDiv.scrollHeight; // Scroll to bottom
+
+        // Show a browser notification
+        showNotification(username, message);
+    });
+
+
+    </script>
+{% endblock %}
