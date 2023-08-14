@@ -9,13 +9,17 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from mongoengine.errors import NotUniqueError
 from flask_socketio import SocketIO,emit
 import datetime
+from pymongo import MongoClient
+
 
 app = Flask(__name__, static_folder='static')
 app.config['SECRET_KEY'] = 'your-secret-key'
+
 app.config['MONGODB_SETTINGS'] = {
-    'db': 'chatapp',
-    'host': 'mongodb://localhost/chatapp'
+    'db': 'chatapp',  # Database name
+    'host': 'mongodb+srv://ompatel5044:newpass@cluster0.ampxsg8.mongodb.net/?retryWrites=true&w=majority'
 }
+
 db = MongoEngine(app)
 bcrypt = Bcrypt(app)
 socketio = SocketIO(app)
