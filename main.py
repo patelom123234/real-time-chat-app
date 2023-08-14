@@ -63,6 +63,7 @@ class User(db.Document):
     def is_anonymous(self):
         return False
 
+
     
 class Message(db.Document):
     content = db.StringField(required=True)
